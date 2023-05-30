@@ -152,16 +152,21 @@ remove-game: disable-service
 disable-game: disable-service
 remove-service: disable-service
 disable-service: stop-service
+	rm ./environments-enabled/$(SERVICE_PASSED_DNCASED).env
 	rm ./services-enabled/$(SERVICE_PASSED_DNCASED).yml
 	rm ./overrides-enabled/$(SERVICE_PASSED_DNCASED)-*.yml 2> /dev/null || true
 
 create-service:
 	envsubst '$${SERVICE_PASSED_DNCASED},$${SERVICE_PASSED_UPCASED}' < ./.templates/service.template > ./services-available/$(SERVICE_PASSED_DNCASED).yml
+	envsubst '$${SERVICE_PASSED_DNCASED},$${SERVICE_PASSED_UPCASED}' < ./.templates/environment.template > environments-available/$(SERVICE_PASSED_DNCASED).template
 	$(EDITOR) ./services-available/$(SERVICE_PASSED_DNCASED).yml
+	$(EDITOR) environments-available/$(SERVICE_PASSED_DNCASED).template
 
 create-game:
 	envsubst '$${SERVICE_PASSED_DNCASED},$${SERVICE_PASSED_UPCASED}' < ./.templates/service.template > ./services-available/games/$(SERVICE_PASSED_DNCASED).yml
+	envsubst '$${SERVICE_PASSED_DNCASED},$${SERVICE_PASSED_UPCASED}' < ./.templates/environment.template > environments-available/$(SERVICE_PASSED_DNCASED).template
 	$(EDITOR) ./services-available/games/$(SERVICE_PASSED_DNCASED).yml
+	$(EDITOR) environments-available/$(SERVICE_PASSED_DNCASED).template
 
 start-dev: COMPOSE_IGNORE_ORPHANS = true 
 start-dev: build services-dev
@@ -253,7 +258,7 @@ list-count: print-enabled count-enabled
 #
 #########################################################
 
-build: environments-enabled/onramp.env etc/authelia/configuration.yml etc/dashy/dashy-config.yml etc/prometheus/conf etc/adguard/conf/AdGuardHome.yaml
+build: environments-enabled/onramp.env environments-enabled/onramp-external.env environments-enabled/onramp-nfs.env etc/authelia/configuration.yml etc/dashy/dashy-config.yml etc/prometheus/conf etc/adguard/conf/AdGuardHome.yaml
 
 environments-enabled/onramp.env:
 	@clear
@@ -279,6 +284,12 @@ environments-enabled/onramp.env:
 	@echo ""
 	@echo ""
 	@python3 scripts/env-subst.py environments-available/onramp.template "ONRAMP"
+
+environments-enabled/onramp-external.env:
+	cp environments-available/onramp-external.template environments-enabled/onramp-external.env
+
+environments-enabled/onramp-nfs.env:
+	cp environments-available/onramp-nfs.template environments-enabled/onramp-nfs.env
 
 etc/authelia/configuration.yml:
 	envsubst '$${HOST_DOMAIN}' < ./etc/authelia/configuration.template > ./etc/authelia/configuration.yml
@@ -333,8 +344,28 @@ create-external:
 #
 #########################################################
 
+
+#########################################################
+#
+# environment helper commands
+#
+#########################################################
+
+create-environment-template:
+	envsubst '$${SERVICE_PASSED_DNCASED},$${SERVICE_PASSED_UPCASED}' < ./.templates/environment.template > environments-available/$(SERVICE_PASSED_DNCASED).template
+	$(EDITOR) environments-available/$(SERVICE_PASSED_DNCASED).template
+
 edit-env:
+	$(EDITOR) environments-enabled/$(SERVICE_PASSED_DNCASED).env
+
+edit-env-onramp:
 	$(EDITOR) environments-enabled/onramp.env
+
+edit-env-nfs:
+	$(EDITOR) environments-enabled/onramp-nfs.env
+
+edit-env-external:
+	$(EDITOR) environments-enabled/onramp-external.env
 
 #########################################################
 #
