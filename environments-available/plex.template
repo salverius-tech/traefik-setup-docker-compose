@@ -1,0 +1,8 @@
+###############################################
+# Plex settings 
+###############################################
+PLEX_CLAIM=<plex_claim_key>
+# uncomment this if your media directory is somewhere else on the host
+# and your are NOT using NFS
+PLEX_MEDIA_VOLUME=./media
+PLEX_ALLOWED_NETWORKS=192.168.0.0/16

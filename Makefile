@@ -1,6 +1,7 @@
 # include .env variable in the current environment
-ifneq (,$(wildcard ./.env))
-    include .env
+ENVIRONMENT_FILES := $(wildcard ./environments-enabled/*.env)
+ifneq (,$(wildcard ./environments-enabled/*.env))
+    include ${ENVIRONMENT_FILES}
     export
 endif
 
@@ -131,7 +132,7 @@ else
 endif
 	
 .PHONY: enable-service build 
-enable-service: etc/$(SERVICE_PASSED_DNCASED) services-enabled/$(SERVICE_PASSED_DNCASED).yml
+enable-service: etc/$(SERVICE_PASSED_DNCASED) services-enabled/$(SERVICE_PASSED_DNCASED).yml environments-enabled/$(SERVICE_PASSED_DNCASED).env
 
 etc/$(SERVICE_PASSED_DNCASED):
 	@mkdir -p ./etc/$(SERVICE_PASSED_DNCASED)
@@ -143,6 +144,9 @@ ifneq (,$(wildcard ./services-available/$(SERVICE_PASSED_DNCASED).yml))
 else
 	@echo "No such service file ./services-available/$(SERVICE_PASSED_DNCASED).yml!"
 endif
+
+environments-enabled/$(SERVICE_PASSED_DNCASED).env:
+	@python3 scripts/env-subst.py environments-available/$(SERVICE_PASSED_DNCASED).template $(SERVICE_PASSED_UPCASED)
 
 remove-game: disable-service
 disable-game: disable-service
@@ -249,11 +253,32 @@ list-count: print-enabled count-enabled
 #
 #########################################################
 
-build: .env etc/authelia/configuration.yml etc/dashy/dashy-config.yml etc/prometheus/conf etc/adguard/conf/AdGuardHome.yaml
+build: environments-enabled/onramp.env etc/authelia/configuration.yml etc/dashy/dashy-config.yml etc/prometheus/conf etc/adguard/conf/AdGuardHome.yaml
 
-.env:
-	cp .templates/env.template .env
-	$(EDITOR) .env
+environments-enabled/onramp.env:
+	@clear
+	@echo "***********************************************"
+	@echo "Traefik Turkey OnRamp Setup"
+	@echo "***********************************************"
+	@echo ""
+	@echo "Welcome to OnRamp - Traefik with all the stuffing."
+	@echo ""
+	@echo ""
+	@echo "To proceed with the initial setup you will need to "
+	@echo "provide some information that is required for"
+	@echo "OnRamp to function properly."
+	@echo ""
+	@echo "Required information:"
+	@echo ""
+	@echo "--> Cloudflare Email Address"
+	@echo "--> Cloudflare Access Token"
+	@echo "--> Hostname of system OnRamp is running on."
+	@echo "--> Domain for which traefik will be handling requests"
+	@echo "--> Timezone"
+	@echo ""
+	@echo ""
+	@echo ""
+	@python3 scripts/env-subst.py environments-available/onramp.template "ONRAMP"
 
 etc/authelia/configuration.yml:
 	envsubst '$${HOST_DOMAIN}' < ./etc/authelia/configuration.template > ./etc/authelia/configuration.yml
