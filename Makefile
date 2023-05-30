@@ -334,7 +334,7 @@ create-external:
 #########################################################
 
 edit-env:
-	$(EDITOR) .env
+	$(EDITOR) environments-enabled/onramp.env
 
 #########################################################
 #
