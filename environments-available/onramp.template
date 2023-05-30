@@ -1,3 +1,9 @@
+ONRAMP_CF_API_EMAIL=$ONRAMP_CF_API_EMAIL
+ONRAMP_CF_DNS_API_TOKEN=$ONRAMP_CF_DNS_API_TOKEN
+ONRAMP_HOST_NAME=$ONRAMP_HOST_NAME
+ONRAMP_HOST_DOMAIN=$ONRAMP_HOST_DOMAIN
+ONRAMP_TZ=$ONRAMP_TZ
+
 ################################################
 #
 # Please edit this file and enter your info 
@@ -5,14 +11,21 @@
 #
 ################################################
 
-CF_API_EMAIL=<your cloudflare login email>
-CF_DNS_API_TOKEN=<cloudflare api token>
-HOST_NAME=<your_server_name_without_domain>
-HOST_DOMAIN=<your_domain.com>
+CF_API_EMAIL=$ONRAMP_CF_API_EMAIL
+CF_DNS_API_TOKEN=$ONRAMP_CF_DNS_API_TOKEN
+HOST_NAME=$ONRAMP_HOST_NAME
+HOST_DOMAIN=$ONRAMP_HOST_DOMAIN
 
 # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones#Time_Zone_abbreviations
 # choose a value from the TZ database name column on the wikipedia page above
-TZ=US/Eastern
+TZ=$ONRAMP_TZ
+
+################################################
+#
+# The values below are optional, and are only need
+# if you enable the associated services
+#
+################################################
 
 ###############################################
 # Traefik settings 
