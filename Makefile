@@ -355,6 +355,9 @@ create-environment-template:
 	envsubst '$${SERVICE_PASSED_DNCASED},$${SERVICE_PASSED_UPCASED}' < ./.templates/environment.template > environments-available/$(SERVICE_PASSED_DNCASED).template
 	$(EDITOR) environments-available/$(SERVICE_PASSED_DNCASED).template
 
+edit-env-template:
+	$(EDITOR) environments-available/$(SERVICE_PASSED_DNCASED).template
+
 edit-env:
 	$(EDITOR) environments-enabled/$(SERVICE_PASSED_DNCASED).env
 
@@ -541,4 +544,4 @@ echo:
 env:
 	@env | sort
 
-include env_ifs.mk
+include .makes/*.mk

@@ -9,6 +9,11 @@
 #
 # When the service is enabled using 'make enable-service <servicename>' the user
 # will be prompted to enter values for any variables (uncommented) listed in this file.
+#
+# Some helpful commands to make changes to either this template file, or the plex.env file in use by OnRamp:
+#
+# Template: 'make edit-env-template plex'
+# Env:      'make edit-env plex'
 
 
 #PLEX_DOCKER_TAG=$PLEX_DOCKER_TAG
