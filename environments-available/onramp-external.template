@@ -9,6 +9,8 @@
 ################################################
 # IDRAC_ADDRESS=<ip_or_fqdn>                # idrac.your_domain.com
 # IDRAC_HOST_NAME=<idrac_hostname>          # idrac hostname, normally idrac
+# MINECRAFT_DYNMAP_HOST_NAME=<minecraft_dynamp_hostname>  
+# MINECRAFT_DYNMAP_ADDRESS=<ip_or_fqdn>
 # OME_ADDRESS=<ip_or_fqdn>                  # ome.your_domain.com
 # OME_HOST_NAME=<ome_hostname>              # ome hostname, normally ome
 # OPNSENSE_ADDRESS=<ip_or_fqdn>             # opnsense.your_domain.com

@@ -1,0 +1,21 @@
+###############################################
+# AVAHI settings 
+###############################################
+
+# Environment variables required by the service you are adding
+# can be placed in this file in the format specified below:
+#
+##AVAHI_EXAMPLE_VARIABLE=$AVAHI_EXAMPLE_VARIABLE
+#
+# When the service is enabled using 'make enable-service <servicename>' the user
+# will be prompted to enter values for any variables (uncommented) listed in this file.
+#
+# Some helpful commands to make changes to either this template file, or the avahi.env file in use by OnRamp:
+#
+# Template: 'make edit-env-template avahi'
+# Env:      'make edit-env avahi'
+
+
+#AVAHI_DOCKER_TAG=$AVAHI_DOCKER_TAG
+#AVAHI_CONTAINER_NAME=$AVAHI_CONTAINER_NAME
+#AVAHI_RESTART=$AVAHI_RESTART

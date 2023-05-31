@@ -10,10 +10,10 @@
 # When the service is enabled using 'make enable-service <servicename>' the user
 # will be prompted to enter values for any variables (uncommented) listed in this file.
 #
-# Some helpful commands to make changes to either this template file, or the ${SERVICE_PASSED_UPCASED}.env file in use by OnRamp:
+# Some helpful commands to make changes to either this template file, or the ${SERVICE_PASSED_DNCASED}.env file in use by OnRamp:
 #
-# Template: 'make edit-env-template ${SERVICE_PASSED_UPCASED}'
-# Env:      'make edit-env ${SERVICE_PASSED_UPCASED}'
+# Template: 'make edit-env-template ${SERVICE_PASSED_DNCASED}'
+# Env:      'make edit-env ${SERVICE_PASSED_DNCASED}'
 
 
 #${SERVICE_PASSED_UPCASED}_DOCKER_TAG=$${SERVICE_PASSED_UPCASED}_DOCKER_TAG
