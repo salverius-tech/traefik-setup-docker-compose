@@ -10,7 +10,7 @@ services:
   homarr:
     image: ghcr.io/ajnart/homarr:${HOMARR_DOCKER_TAG:-dev}
     container_name: ${HOMARR_CONTAINER_NAME:-homarr} 
-    restart: unless-stopped
+    restart: ${HOMARR_RESTART:-unless-stopped}
     volumes:
       - ./etc/homarr/configs:/app/data/configs
       - ./etc/homarr/icons:/app/public/icons

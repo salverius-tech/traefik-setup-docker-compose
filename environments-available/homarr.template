@@ -1,0 +1,21 @@
+###############################################
+# HOMARR settings 
+###############################################
+
+# Environment variables required by the service you are adding
+# can be placed in this file in the format specified below:
+#
+# HOMARR_EXAMPLE_VARIABLE=$HOMARR_EXAMPLE_VARIABLE
+#
+# When the service is enabled using 'make enable-service <servicename>' the user
+# will be prompted to enter values for any variables (uncommented) listed in this file.
+#
+# Some helpful commands to make changes to either this template file, or the homarr.env file in use by OnRamp:
+#
+# Template: 'make edit-env-template homarr'
+# Env:      'make edit-env homarr'
+
+
+#HOMARR_DOCKER_TAG=$HOMARR_DOCKER_TAG
+#HOMARR_CONTAINER_NAME=$HOMARR_CONTAINER_NAME
+#HOMARR_RESTART=$HOMARR_RESTART

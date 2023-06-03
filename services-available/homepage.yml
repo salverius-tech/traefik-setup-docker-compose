@@ -14,7 +14,7 @@ services:
   homepage:
     image: ghcr.io/benphelps/homepage:${HOMEPAGE_DOCKER_TAG:-latest}
     container_name: ${HOMEPAGE_CONTAINER_NAME:-homepage} 
-    restart: unless-stopped
+    restart: ${HOMEPAGE_RESTART:-unless-stopped}
     volumes:
       - ./etc/homepage:/app/config
       - /etc/timezone:/etc/timezone:ro

@@ -10,7 +10,7 @@ services:
   homer:
     image: b4bz/homer:${HOMER_DOCKER_TAG:-latest}
     container_name: ${HOMER_CONTAINER_NAME:-homer}
-    restart: unless-stopped
+    restart: ${HOMER_RESTART:-unless-stopped}
     volumes:
       - ${HOMER_ASSETS_DIR:-./etc/homer}:/www/assets
       - /etc/timezone:/etc/timezone:ro

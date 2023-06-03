@@ -30,5 +30,8 @@ TZ=$ONRAMP_TZ
 ###############################################
 # Traefik settings 
 ###############################################
+#TRAEFIK_DOCKER_TAG=2.9
+#TRAEFIK_CONTAINER_NAME=
+#TRAEFIK_RESTART=
 TRAEFIK_ACCESSLOG=true
 TRAEFIK_LOG_LEVEL=DEBUG

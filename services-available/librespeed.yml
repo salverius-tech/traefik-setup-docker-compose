@@ -10,8 +10,8 @@ networks:
 services:
   librespeed:
     image: lscr.io/linuxserver/librespeed:${LIBRESPEED_DOCKER_TAG:-latest}
-    container_name: librespeed
-    restart: unless-stopped
+    container_name: ${LIBRESPEED_CONTAINER_NAME:-librespeed}
+    restart: ${LIBRESPEED_RESTART:-unless-stopped}
     volumes:
       - ./etc/librespeed:/config
       - /etc/timezone:/etc/timezone:ro

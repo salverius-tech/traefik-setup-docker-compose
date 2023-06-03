@@ -12,13 +12,11 @@ services:
   grafana:
     image: grafana/grafana:${GRAFANA_DOCKER_TAG:-latest}
     container_name: ${GRAFANA_CONTAINER_NAME:-grafana}
-    restart: unless-stopped
+    restart: ${GRAFANA_RESTART:-unless-stopped}
     user: ${PUID:-1000}
     networks:
       - default
       - loki
-    env_file:
-      - .env
     environment:
       - GF_INSTALL_PLUGINS=camptocamp-prometheus-alertmanager-datasource
     # ports:
@@ -36,4 +34,3 @@ services:
       - traefik.http.routers.grafana.rule=Host(`${GRAFANA_CONTAINER_NAME:-grafana}.${HOST_DOMAIN}`)
       - traefik.http.routers.grafana.entrypoints=websecure
       - traefik.http.services.grafana.loadbalancer.server.port=3000
-

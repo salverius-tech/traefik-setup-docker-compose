@@ -10,7 +10,7 @@ services:
   gotify:
     image: ghcr.io/gotify/server:${GOTIFY_DOCKER_TAG:-latest}
     container_name: ${GOTIFY_CONTAINER_NAME:-gotify} 
-    restart: unless-stopped
+    restart: ${GOTIFY_RESTART:-unless-stopped}
     volumes:
       - ./etc/gotify:/app/data
       - /etc/timezone:/etc/timezone:ro
