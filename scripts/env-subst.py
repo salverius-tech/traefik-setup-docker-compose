@@ -1,6 +1,7 @@
 import os
 import subprocess
 import sys
+from shutil import copyfile
 
 def read_variables(filename, prefix):
     variables = []
@@ -33,20 +34,24 @@ def call_envsubst(input_file, output_file):
         print(e.output)
 
 def main(file_path, prefix):
-    # Read variable names from file
-    variables = read_variables(file_path, prefix)    
-    
-    # Prompt the user for values for each variable
-    values = prompt_user_for_values(variables)
-
-    # Load the values into the environment
-    load_values_into_environment(values)
-
     # Create the output file path by replacing the extension of the input file with '.env'
     env_filepath="environments-enabled/"
     output_file_path = os.path.join(env_filepath, os.path.splitext(os.path.split(file_path)[1])[0] + '.env')
 
-    call_envsubst(file_path, output_file_path)
+    # Read variable names from file
+    variables = read_variables(file_path, prefix)    
+    
+
+    #Check variables for quantity, if none, then just output .env file otherwise, get values, load them into env, then output .env
+    if (len(variables) > 0):
+        # Prompt the user for values for each variable
+        values = prompt_user_for_values(variables)
+        # Load the values into the environment
+        load_values_into_environment(values)
+        call_envsubst(file_path, output_file_path)
+    else:
+        copyfile(file_path, output_file_path)        
+
 
 if __name__ == '__main__':
     if len(sys.argv) < 3:
