@@ -370,45 +370,8 @@ edit-env-nfs:
 edit-env-external:
 	$(EDITOR) environments-enabled/onramp-external.env
 
-#########################################################
-#
-# backup and restore up commands
-#
-#########################################################
-
-export-backup: create-backup
-	@echo "export-backup is depercated and will be removed in the future, please use make create-backup"
-
-import-backup: restore-backup
-	@echo "import-backup is depercated and will be removed in the future, please use make restore-backup"
-
-create-backup: backups
-	sudo tar --exclude=.keep -czf ./backups/onramp-config-backup-$(HOST_NAME)-$(shell date +'%y-%m-%d-%H%M').tar.gz ./etc ./services-enabled ./overrides-enabled .env || true
-
-create-nfs-backup: create-backup
-	sudo mount -t nfs $(NFS_SERVER):$(NFS_BACKUP_PATH) $(NFS_BACKUP_TMP_DIR)
-	sudo mv ./backups/onramp-config-backup* $(NFS_BACKUP_TMP_DIR)
-	sudo umount $(NFS_BACKUP_TMP_DIR)
-
-backups:
-	mkdir -p ./backups/
-
-restore-backup:
-	sudo tar -xvf ./backups/onramp-config-backup-$(HOST_NAME)-*.tar.gz
-
-$(NFS_BACKUP_TMP_DIR):
-	sudo mkdir -p $(NFS_BACKUP_TMP_DIR)
-	sudo mount -t nfs $(NFS_SERVER):$(NFS_BACKUP_PATH) $(NFS_BACKUP_TMP_DIR)
-	
-restore-nfs-backup: $(NFS_BACKUP_TMP_DIR) backups
-	$(eval BACKUP_FILE := $(shell find $(NFS_BACKUP_TMP_DIR)/*$(HOST_NAME)* -type f -printf "%T@ %p\n" | sort -n | cut -d' ' -f 2- | tail -n 1))
-	sudo rm -rf ./backups/*
-	cp -p  $(BACKUP_FILE) ./backups/
-	sudo tar -xvf ./backups/*
-	echo $(shell basename $(BACKUP_FILE)) > .restore_latest
-	sudo umount $(NFS_BACKUP_TMP_DIR)
-	sudo rm -r $(NFS_BACKUP_TMP_DIR)
-	echo -n "Please run 'make restart' to apply restored backup"	
+show-env:
+	@env | sort
 
 #########################################################
 #
@@ -464,66 +427,6 @@ delete-tunnel:
 show-tunnel:
 	$(CLOUDFLARE_CMD) tunnel info $(CLOUDFLARE_TUNNEL_NAME)
 
-#########################################################
-#
-# mariadb commands
-#
-#########################################################
-
-ifndef MARIADB_CONTAINER_NAME
-MARIADB_CONTAINER_NAME=mariadb
-endif
-
-# enable this to be asked for password to when you connect to the database
-#mysql-connect = @docker exec -it $(MARIADB_CONTAINER_NAME) mysql -p
-
-# enable this to not be asked for password to when you connect to the database
-mysql-connect = @docker exec -it $(MARIADB_CONTAINER_NAME) mysql -p$(MARIADB_ROOT_PASSWORD)
-
-first_arg = $(shell echo $(EMPTY_TARGETS)| cut -d ' ' -f 1)
-second_arg = $(shell echo $(EMPTY_TARGETS)| cut -d ' ' -f 2)
-
-password := $(shell openssl rand -hex 16)
-
-
-mariadb-console:
-	$(mysql-connect)
-
-create-database:
-	$(mysql-connect) -e 'CREATE DATABASE IF NOT EXISTS $(first_arg);'
-
-show-databases: 
-	$(mysql-connect) -e 'show databases;'
-
-create-db-user:
-	$(mysql-connect) -e 'CREATE USER $(first_arg) IDENTIFIED BY "'$(second_arg)'";'
-
-create-db-user-pw: 
-	@echo Here is your password : $(password) : Please put it in the .env file under the service name
-	$(mysql-connect) -e 'CREATE USER IF NOT EXISTS $(first_arg) IDENTIFIED BY "'$(password)'";'
-
-grant-db-perms:
-	$(mysql-connect) -e 'GRANT ALL PRIVILEGES ON '$(first_arg)'.* TO $(first_arg);'
-
-remove-db-user: 
-	$(mysql-connect) -e 'DROP USER $(first_arg);'
-
-drop-database:
-	$(mysql-connect) -e 'DROP DATABASE $(first_arg);'
-
-create-user-with-db: create-db-user-pw create-database grant-db-perms
-
-#########################################################
-#
-# prestashop commands
-#
-#########################################################
-
-remove-presta-install-folder:
-	@sudo rm -rf etc/prestashop/install/
-
-rename-presta-admin:
-	@sudo mv etc/prestashop/admin/ etc/prestashop/$(first_arg)
 
 #########################################################
 #
@@ -541,7 +444,5 @@ test-smtp:
 echo:
 	@$(MAKE) -pn | grep -A1 "^# makefile"| grep -v "^#\|^--" | grep -e "^[A-Z]+*" | sort
 
-env:
-	@env | sort
 
 include .makes/*.mk

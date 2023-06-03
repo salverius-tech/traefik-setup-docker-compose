@@ -1,0 +1,21 @@
+###############################################
+# COQUI_AI settings 
+###############################################
+
+# Environment variables required by the service you are adding
+# can be placed in this file in the format specified below:
+#
+# COQUI_AI_EXAMPLE_VARIABLE=$COQUI_AI_EXAMPLE_VARIABLE
+#
+# When the service is enabled using 'make enable-service <servicename>' the user
+# will be prompted to enter values for any variables (uncommented) listed in this file.
+#
+# Some helpful commands to make changes to either this template file, or the coqui-ai.env file in use by OnRamp:
+#
+# Template: 'make edit-env-template coqui-ai'
+# Env:      'make edit-env coqui-ai'
+
+
+#COQUI_AI_DOCKER_TAG=$COQUI_AI_DOCKER_TAG
+#COQUI_AI_CONTAINER_NAME=$COQUI_AI_CONTAINER_NAME
+#COQUI_AI_RESTART=$COQUI_AI_RESTART

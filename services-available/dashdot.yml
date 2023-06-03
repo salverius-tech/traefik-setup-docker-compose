@@ -12,7 +12,7 @@ services:
   dashdot:
     image: mauricenino/dashdot:${DASHDOT_DOCKER_TAG:-latest}
     container_name: ${DASHDOT_CONTAINER_NAME:-dashdot} 
-    restart: unless-stopped
+    restart: ${DASHDOT_RESTART:-unless-stopped}
     #privileged: false
     volumes:
       #- ./etc/dashdot:/config # <==== this probably needs changed 
