@@ -35,7 +35,7 @@ services:
     networks:
       - loki
     depends_on:
-      - ${LOKI_PROMTAIL_CONTAINER_NAME:-loki-promtail}
+      - promtail
     environment:
       - SYSLOG_HOSTNAME={{.ContainerName}}
     volumes:
