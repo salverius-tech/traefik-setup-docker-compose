@@ -16,6 +16,7 @@ services:
     restart: ${LOKI_RESTART:-unless-stopped}
     volumes:
       - ./etc/loki:/etc/loki
+      - ./etc/loki/data:/tmp/loki
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     ports:
