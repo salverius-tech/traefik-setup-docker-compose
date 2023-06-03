@@ -370,6 +370,9 @@ edit-env-nfs:
 edit-env-external:
 	$(EDITOR) environments-enabled/onramp-external.env
 
+regenerate-env:
+	@python3 scripts/env-subst.py environments-available/$(SERVICE_PASSED_DNCASED).template $(SERVICE_PASSED_UPCASED)
+
 show-env:
 	@env | sort
 
