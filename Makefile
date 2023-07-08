@@ -344,6 +344,8 @@ create-external:
 #
 #########################################################
 
+generate-matrix-config:
+	docker run -it --rm  -v ./etc/synapse:/data  -e SYNAPSE_SERVER_NAME=${SYNAPSE_SERVER_NAME} -e SYNAPSE_REPORT_STATS=${SYNAPSE_REPORT_STATS} matrixdotorg/synapse:latest generate	
 
 #########################################################
 #
@@ -363,9 +365,6 @@ edit-env:
 
 edit-env-onramp:
 	$(EDITOR) environments-enabled/onramp.env
-
-generate-matrix-config:
-	docker run -it --rm  -v ./etc/synapse:/data  -e SYNAPSE_SERVER_NAME=synapse.traefikturkey.icu -e SYNAPSE_REPORT_STATS=yes matrixdotorg/synapse:latest generate	
 
 edit-env-nfs:
 	$(EDITOR) environments-enabled/onramp-nfs.env

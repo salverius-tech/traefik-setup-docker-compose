@@ -12,7 +12,7 @@ services:
     container_name: ${MAILRISE_CONTAINER_NAME:-mailrise} 
     restart: ${MAILRISE_RESTART:-unless-stopped}
     volumes:
-      - ./etc/mailrise:/config # <==== this probably needs changed 
+      - ./etc/mailrise:/config
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     environment:
