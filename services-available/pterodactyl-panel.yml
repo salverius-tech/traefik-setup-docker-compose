@@ -23,7 +23,7 @@ services:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
       - TZ=${TZ}
-      - DB_PASSWORD="${PTERODACTYL_PANEL_DB_PASSWORD}"
+      - DB_PASSWORD="${PTERODACTYL_PANEL_DB_PASSWORD:?pterodactyl-panel db password not set}"
       - APP_ENV="production"
       - APP_ENVIRONMENT_ONLY="true"
       - CACHE_DRIVER="redis"

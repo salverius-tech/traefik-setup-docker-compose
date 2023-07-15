@@ -146,6 +146,9 @@ else
 endif
 
 environments-enabled/$(SERVICE_PASSED_DNCASED).env:
+ifeq (,$(wildcard ./environments-available/$(SERVICE_PASSED_DNCASED).template))
+	@envsubst '$${SERVICE_PASSED_DNCASED},$${SERVICE_PASSED_UPCASED}' < ./.templates/environment.template > environments-available/$(SERVICE_PASSED_DNCASED).template
+endif
 	@python3 scripts/env-subst.py environments-available/$(SERVICE_PASSED_DNCASED).template $(SERVICE_PASSED_UPCASED)
 
 remove-game: disable-service

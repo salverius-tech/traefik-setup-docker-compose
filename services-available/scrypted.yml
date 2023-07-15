@@ -14,7 +14,7 @@ services:
     restart: ${SCRYPTED_RESTART:-unless-stopped}
     network_mode: host
     volumes:
-      - ./etc/scrypted:/server/volume # <==== this probably needs changed 
+      - ./etc/scrypted:/server/volume
       - ./media/videos/scrypted:/media/external
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
