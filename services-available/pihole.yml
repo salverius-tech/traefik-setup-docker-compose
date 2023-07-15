@@ -9,7 +9,7 @@ services:
   pihole:
     image: pihole/pihole:${PIHOLE_DOCKER_TAG:-latest}
     container_name: ${PIHOLE_CONTAINER_NAME:-pihole} 
-    restart: unless-stopped
+    restart: ${PIHOLE_RESTART:-unless-stopped}
     #network_mode: "host"
     # cap_add:
     #   - NET_ADMIN

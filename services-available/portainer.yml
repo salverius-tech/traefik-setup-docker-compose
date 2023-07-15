@@ -10,7 +10,7 @@ services:
   portainer:
     image: portainer/portainer-${PORTAINER_VERSION:-ce}:${PORTAINER_DOCKER_TAG:-latest}
     container_name: ${PORTAINER_CONTAINER_NAME:-portainer}
-    restart: unless-stopped
+    restart: ${PORTAINER_RESTART:-unless-stopped}
     volumes:
       - ./etc/portainer:/data
       - /etc/timezone:/etc/timezone:ro

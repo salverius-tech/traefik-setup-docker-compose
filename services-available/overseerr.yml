@@ -10,7 +10,7 @@ services:
   overseerr:
     image: linuxserver/overseerr:${OVERSEERR_DOCKER_TAG:-latest}
     container_name: ${OVERSEERR_CONTAINER_NAME:-overseerr} 
-    restart: unless-stopped
+    restart: ${OVERSEER_RESTART:-unless-stopped}
     volumes:
       - ./etc/overseerr:/config
       - /etc/timezone:/etc/timezone:ro

@@ -10,9 +10,9 @@ services:
   nzbget:
     image: linuxserver/nzbget:${NZBGET_DOCKER_TAG:-latest}
     container_name: ${NZBGET_CONTAINER_NAME:-nzbget} 
-    restart: unless-stopped
+    restart: ${NZBGET_RESTART:-unless-stopped}
     volumes:
-      - ./etc/nzbget:/config # <==== this probably needs changed 
+      - ./etc/nzbget:/config
       - ${NZBGET_DOWNLOADS_DIR:-./media/downloads}:/downloads
     environment:
       - PUID=${PUID:-1000}

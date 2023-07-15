@@ -10,7 +10,7 @@ services:
   netbootxyz:
     image: linuxserver/netbootxyz:${NETBOOTXYZ_DOCKER_TAG:-latest}
     container_name: ${NETBOOTXYZ_CONTAINER_NAME:-netbootxyz} 
-    restart: unless-stopped
+    restart: ${NETBOOTXYZ_RESTART:-unless-stopped}
     volumes:
       - ./etc/netbootxyz:/config
       - ./media/netbootxyz:/assets

@@ -34,7 +34,7 @@ services:
       - org.label-schema.group=monitoring
       - joyride.host.name=${CADVISOR_CONTAINER_NAME:-cadvisor}.${HOST_DOMAIN}
       - traefik.enable=true
-      - traefik.http.routers.plex.rule=Host(`${CADVISOR_CONTAINER_NAME:-cadvisor}.${HOST_DOMAIN}`)
+      - traefik.http.routers.cadvisor.rule=Host(`${CADVISOR_CONTAINER_NAME:-cadvisor}.${HOST_DOMAIN}`)
       - traefik.http.routers.cadvisor.entrypoints=websecure
       - traefik.http.routers.cadvisor.tls=true
       - traefik.http.routers.cadvisor.tls.certresolver=letsencrypt
