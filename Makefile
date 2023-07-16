@@ -327,7 +327,7 @@ disable-override:
 
 #########################################################
 #
-# external commands
+# external service commands
 #
 #########################################################
 
@@ -349,108 +349,6 @@ create-external:
 
 generate-matrix-config:
 	docker run -it --rm  -v ./etc/synapse:/data  -e SYNAPSE_SERVER_NAME=${SYNAPSE_SERVER_NAME} -e SYNAPSE_REPORT_STATS=${SYNAPSE_REPORT_STATS} matrixdotorg/synapse:latest generate	
-
-#########################################################
-#
-# environment helper commands
-#
-#########################################################
-
-create-environment-template:
-	envsubst '$${SERVICE_PASSED_DNCASED},$${SERVICE_PASSED_UPCASED}' < ./.templates/environment.template > environments-available/$(SERVICE_PASSED_DNCASED).template
-	$(EDITOR) environments-available/$(SERVICE_PASSED_DNCASED).template
-
-edit-env-template:
-	$(EDITOR) environments-available/$(SERVICE_PASSED_DNCASED).template
-
-edit-env:
-	$(EDITOR) environments-enabled/$(SERVICE_PASSED_DNCASED).env
-
-edit-env-onramp:
-	$(EDITOR) environments-enabled/onramp.env
-
-edit-env-nfs:
-	$(EDITOR) environments-enabled/onramp-nfs.env
-
-edit-env-external:
-	$(EDITOR) environments-enabled/onramp-external.env
-
-regenerate-env:
-	@python3 scripts/env-subst.py environments-available/$(SERVICE_PASSED_DNCASED).template $(SERVICE_PASSED_UPCASED)
-
-show-env:
-	@env | sort
-
-#########################################################
-#
-# clean up commands
-#
-#########################################################
-
-clean-acme:
-	@echo "removing acme certificate file"
-	sudo rm etc/traefik/letsencrypt/acme.json
-
-prune:
-	docker image prune
-
-prune-force:
-	docker image prune -f
-
-prune-update: prune-force update
-
-remove-etc: 
-	rm -rf ./etc/$(or $(SERVICE_PASSED_DNCASED),no_service_passed)/
-
-reset-database-folder:
-	rm -rf ./media/databases/$(or $(SERVICE_PASSED_DNCASED),no_service_passed)/
-	git checkout ./media/databases/$(or $(SERVICE_PASSED_DNCASED),no_service_passed)/.keep
-
-reset-etc: remove-etc
-	git checkout ./etc/$(or $(SERVICE_PASSED_DNCASED),no_service_passed)/
-
-stop-reset-etc: stop-service reset-etc
-
-reset-database: remove-etc reset-database-folder	
-
-#########################################################
-#
-# cloudflare tunnel commands
-#
-#########################################################
-
-CLOUDFLARE_CMD = $(DOCKER_COMPOSE) $(DOCKER_COMPOSE_FLAGS) run --rm cloudflare-tunnel
-
-./etc/cloudflare-tunnel/cert.pem:
-	$(CLOUDFLARE_CMD) login
-
-create-tunnel: ./etc/cloudflare-tunnel/cert.pem
-	$(CLOUDFLARE_CMD) tunnel create $(CLOUDFLARE_TUNNEL_NAME)
-	$(CLOUDFLARE_CMD) tunnel route dns $(CLOUDFLARE_TUNNEL_NAME) $(CLOUDFLARE_TUNNEL_HOSTNAME)
-
-delete-tunnel:
-	$(CLOUDFLARE_CMD) tunnel cleanup $(CLOUDFLARE_TUNNEL_NAME)
-	$(CLOUDFLARE_CMD) tunnel delete $(CLOUDFLARE_TUNNEL_NAME)
-
-show-tunnel:
-	$(CLOUDFLARE_CMD) tunnel info $(CLOUDFLARE_TUNNEL_NAME)
-
-
-#########################################################
-#
-# test and debugging commands
-#
-#########################################################
-
-excuse:
-	@curl -s programmingexcuses.com | egrep -o "<a[^<>]+>[^<>]+</a>" | egrep -o "[^<>]+" | sed -n 2p
-
-test-smtp:
-	envsubst .templates/smtp.template | nc localhost 25
-
-# https://stackoverflow.com/questions/7117978/gnu-make-list-the-values-of-all-variables-or-macros-in-a-particular-run
-echo:
-	@$(MAKE) -pn | grep -A1 "^# makefile"| grep -v "^#\|^--" | grep -e "^[A-Z]+*" | sort
 
 
 include .makes/*.mk
