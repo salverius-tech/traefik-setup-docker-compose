@@ -8,18 +8,19 @@ networks:
 
 services:
   mysql:
+    image: mysql:8.0
+    container_name: semephore-mysql
     restart: unless-stopped
+    hostname: mysql
     ports:
       - 3306:3306
-    image: mysql:8.0
-    hostname: mysql
     volumes:
       - ./etc/semaphore/data:/var/lib/mysql
     environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-      MYSQL_DATABASE: semaphore
-      MYSQL_USER: semaphore
-      MYSQL_PASSWORD: semaphore
+      MYSQL_RANDOM_ROOT_PASSWORD='yes'
+      MYSQL_DATABASE=${SEMAPHORE_DB_HOST:-mysql}
+      MYSQL_USER=${SEMAPHORE_DB_USER:-semaphore}
+      MYSQL_PASSWORD=${SEMAPHORE_DB_PASS:-semaphore}
 
   semaphore:
     image: semaphoreui/semaphore:${SEMAPHORE_DOCKER_TAG:-latest}

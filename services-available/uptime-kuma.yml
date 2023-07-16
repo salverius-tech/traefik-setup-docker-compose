@@ -10,12 +10,10 @@ services:
   uptime-kuma:
     image: louislam/uptime-kuma:${UPTIMEKUMA_DOCKER_TAG:-latest}
     container_name: ${UPTIMEKUMA_CONTAINER_NAME:-uptimekuma}
-    restart: unless-stopped
+    restart: ${UPTIMEKUMA_RESTART:-unless-stopped}
     volumes:
       - ./etc/uptime-kuma:/app/data
       - /var/run/docker.sock:/var/run/docker.sock
-    env_file: 
-      - .env
     labels:
       - joyride.host.name=${UPTIMEKUMA_CONTAINER_NAME:-uptimekuma}.${HOST_DOMAIN}
       - traefik.enable=true
