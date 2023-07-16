@@ -24,11 +24,21 @@ cd /apps
 git clone https://github.com/traefikturkey/onramp.git onramp
 cd onramp
 
-make start-staging
 ```
 
-Edit the .env file to include Cloudflare credenitals, your domain and the hostname of the current machine, save the file by typing ctrl-x followed by the letter. Traefik will start and attempt to obtain a staging certificate, wait and then follow the on screen directions.
+Upon the initial run you shall be prompted to enter the following information:
 
+    -Cloudflare Email Address
+    -Cloudflare Access Token
+    -Hostname of system OnRamp is running on.
+    -Domain for which traefik will be handling requests
+    -Timezone
+
+Begin the setup process by entering:
+```
+make start-staging
+```
+After entering the start-staging command, follow the prompts and information that are presented.
 ```
 make down-staging
 ```
