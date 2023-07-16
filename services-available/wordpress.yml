@@ -12,7 +12,7 @@ services:
   wordpress:
     image: wordpress:${WORDPRESS_DOCKER_TAG:-latest}
     container_name: ${WORDPRESS_CONTAINER_NAME:-wordpress} 
-    restart: unless-stopped
+    restart: ${WORDPRESS_RESTART:-unless-stopped}
     volumes:
       - ./etc/wordpress:/var/www/html/
       - /etc/timezone:/etc/timezone:ro

@@ -8,10 +8,10 @@ networks:
 
 services:
   mindustry:
-    image: ich777/mindustry-server:${MINDUSTRY_VERSION:-latest}
+    image: ich777/mindustry-server:${MINDUSTRY_DOCKER_TAG-latest}
     container_name: ${MINDUSTRY_CONTAINER_NAME:-mindustry}
     hostname: ${MINDUSTRY_HOSTNAME:-mindustry}
-    restart: ${MINDUSTRY_RESTART_POLICY:-unless-stopped}
+    restart: ${MINDUSTRY_RESTART:-unless-stopped}
     environment:
       - SRV_NAME="${MINDUSTRY_SRV_NAME:-MindustryServer}"
       - UID=${PUID:-1000}

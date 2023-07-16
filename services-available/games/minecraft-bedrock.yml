@@ -10,7 +10,7 @@ services:
   minecraft-bedrock:
     image: itzg/minecraft-bedrock-server:${MINECRAFT_BEDROCK_DOCKER_TAG:-latest}
     container_name: ${MINECRAFT_BEDROCK_CONTAINER_NAME:-minecraft-bedrock} 
-    restart: unless-stopped
+    restart: ${MINECRAFT_BEDROCK_RESTART:-unless-stopped}
     ports: 
       - 19132:19132/udp
     volumes:

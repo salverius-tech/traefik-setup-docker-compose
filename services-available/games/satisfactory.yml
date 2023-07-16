@@ -8,10 +8,10 @@ networks:
 
 services:
   satisfactory:
-    image: wolveix/satisfactory-server:${SATISFACTORY_VERSION:-latest}
+    image: wolveix/satisfactory-server:${SATISFACTORY_DOCKER_TAG:-latest}
     container_name: ${SATISFACTORY_CONTAINER_NAME:-satisfactory}
     hostname: ${SATISFACTORY_HOSTNAME:-satisfactory}
-    restart: ${SATISFACTORY_RESTART_POLICY:-unless-stopped}
+    restart: ${SATISFACTORY_RESTART:-unless-stopped}
     ports:
       - ${SATISFACTORY_PORT_7777:-7777}:7777/udp
       - ${SATISFACTORY_PORT_15000:-15000}:15000/udp

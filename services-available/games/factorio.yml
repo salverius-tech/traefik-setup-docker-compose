@@ -8,9 +8,9 @@ networks:
 
 services:
   factorio:
-    image: goofball222/factorio:${FACTORIO_VERSION:-latest}
+    image: goofball222/factorio:${FACTORIO_DOCKER_TAG:-latest}
     container_name: ${FACTORIO_CONTAINER_NAME:-factorio}
-    restart:  ${FACTORIO_RESTART_POLICY:-unless-stopped}
+    restart:  ${FACTORIO_RESTART:-unless-stopped}
     hostname: ${FACTORIO_HOSTNAME:-factorio}
     ports:
       - ${FACTORIO_PORT_27015:-27015}:27015

@@ -12,7 +12,7 @@ services:
   woodpecker:
     image: woodpeckerci/woodpecker-server:${WOODPECKER_DOCKER_TAG:-latest}
     container_name: ${WOODPECKER_CONTAINER_NAME:-woodpecker} 
-    restart: unless-stopped
+    restart: ${WOODPECKER_RESTART:-unless-stopped}
     volumes:
       - ./etc/woodpecker:/var/lib/woodpecker
       - /etc/timezone:/etc/timezone:ro
@@ -47,9 +47,10 @@ services:
       - flame.icon=${WOODPECKER_FLAME_ICON:-docker} # optional, default is "docker"
 
   woodpecker-agent:
-    image: woodpeckerci/woodpecker-agent:latest
+    image: woodpeckerci/woodpecker-agent:${WOODPECKER_AGENT_DOCKER_TAG:-latest}
+    container_name: ${WOODPECKER_AGENT_CONTAINER_NAME:-woodpecker-agent} 
+    restart: ${WOODPECKER_AGENT_RESTART:-unless-stopped}
     command: agent
-    restart: unless-stopped
     depends_on:
       - woodpecker
     volumes:

@@ -2,26 +2,26 @@ version: '3.8'
 
 networks:
   default:
-    name: ${FACTORIO_NETWORK:-games}
+    name: ${MINECRAFT_NETWORK:-games}
 
 # https://hub.docker.com/r/itzg/minecraft-server
 
 services:
   minecraft:
-    image: itzg/minecraft-server:${MINCRAFT_VERSION:-latest}
-    container_name: ${MINCRAFT_CONTAINER_NAME:-minecraft-paper}
+    image: itzg/minecraft-server:${MINECRAFT_DOCKER_TAG:-latest}
+    container_name: ${MINECRAFT_CONTAINER_NAME:-minecraft-paper}
     hostname: ${MINECRAFT_HOSTNAME:-minecraft}
-    restart: ${MINCRAFT_RESTART_POLICY:-unless-stopped}
+    restart: ${MINECRAFT_RESTART:-unless-stopped}
     environment:
       - EULA=true
-      - ENABLE_RCON=${MINCRAFT_ENABLE_RCON:-true}
-      - TYPE=${MINCRAFT_TYPE:-PAPER}
-      - VIEW_DISTANCE=${MINCRAFT_VIEW_DISTANCE:-10}
-      - MEMORY=${MINCRAFT_MEMORY:-2G}
-      - CONSOLE=${MINCRAFT_CONSOLE:-false}
-      - VANILLATWEAKS_SHARECODE=${MINCRAFT_VANILLATWEAKS_SHARECODE:-jjOJob,o85sA9,lJvdCt}
+      - ENABLE_RCON=${MINECRAFT_ENABLE_RCON:-true}
+      - TYPE=${MINECRAFT_TYPE:-PAPER}
+      - VIEW_DISTANCE=${MINECRAFT_VIEW_DISTANCE:-10}
+      - MEMORY=${MINECRAFT_MEMORY:-2G}
+      - CONSOLE=${MINECRAFT_CONSOLE:-false}
+      - VANILLATWEAKS_SHARECODE=${MINECRAFT_VANILLATWEAKS_SHARECODE:-jjOJob,o85sA9,lJvdCt}
     ports:
-      - ${MINCRAFT_PORT:-25565}:25565
+      - ${MINECRAFT_PORT:-25565}:25565
       # uncomment if you have geyser installed, https://geysermc.org/
       #- ${MINCRAFT_GEYSER_PORT:-19132}:19132/udp
     volumes:

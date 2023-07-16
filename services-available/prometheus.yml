@@ -11,8 +11,8 @@ networks:
 services:
   prometheus:
     image: prom/prometheus:${PROMETHEUS_DOCKER_TAG:-latest}
-    container_name: prometheus
-    restart: unless-stopped
+    container_name: ${PROMETHEUS_CONTAINER_NAME:-prometheus}
+    restart: ${PROMETHEUS_RESTART:-unless-stopped}
     links:
       - prometheus-alertmanager
       - prometheus-blackbox
@@ -36,11 +36,11 @@ services:
       - default
       - loki
     labels:
-      - joyride.host.name=prometheus.${HOST_DOMAIN}
+      - joyride.host.name=${PROMETHEUS_CONTAINER_NAME:-prometheus}.${HOST_DOMAIN}
       - com.centurylinklabs.watchtower.enable=true
       - traefik.enable=true
       - traefik.docker.network=traefik
-      - traefik.http.routers.prometheus.rule=Host(`prometheus.${HOST_DOMAIN}`)
+      - traefik.http.routers.prometheus.rule=Host(`${PROMETHEUS_CONTAINER_NAME:-prometheus}.${HOST_DOMAIN}`)
       - traefik.http.routers.prometheus.entrypoints=websecure
       - traefik.http.services.prometheus.loadbalancer.server.scheme=http
       - traefik.http.services.prometheus.loadbalancer.server.port=9090
