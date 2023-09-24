@@ -1,0 +1,49 @@
+version: '3'
+
+networks:
+  default:
+    name: traefik
+    
+# https://joplinapp.org/
+# https://hub.docker.com/r/joplin/server
+# https://github.com/laurent22/joplin
+
+services:
+  joplin:
+    image: joplin/server:${JOPLIN_DOCKER_TAG:-latest}
+    container_name: ${JOPLIN_CONTAINER_NAME:-joplin} 
+    restart: ${JOPLIN_RESTART:-unless-stopped}
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "41184:41184"
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - TZ=${TZ}
+      - APP_PORT=22300
+      - APP_BASE_URL=https://${JOPLIN_CONTAINER_NAME:-joplin}.${HOST_DOMAIN}
+      - DB_CLIENT=pg
+      - POSTGRES_PASSWORD=${JOPLIN_POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DATABASE=${JOPLIN_POSTGRES_DATABASE:-joplin}
+      - POSTGRES_USER=${JOPLIN_POSTGRES_USER:-postgres}
+      - POSTGRES_PORT=${JOPLIN_POSTGRES_PORT:-5432}
+      - POSTGRES_HOST=postgres
+      # - MAILER_ENABLED=1
+      # - MAILER_HOST=smtp.gmail.com
+      # - MAILER_PORT=465
+      # - MAILER_SECURE=1
+      # - MAILER_AUTH_USER=you@yourdomain.com
+      # - MAILER_AUTH_PASSWORD=3m@1lPa55w0rD
+      # - MAILER_NOREPLY_NAME=JoplinServer
+      # - MAILER_NOREPLY_EMAIL=you@yourdomain.com      
+    labels:
+      - joyride.host.name=${JOPLIN_CONTAINER_NAME:-joplin}.${HOST_DOMAIN}
+      - traefik.enable=true
+      - traefik.http.routers.joplin.entrypoints=websecure
+      - traefik.http.routers.joplin.rule=Host(`${JOPLIN_CONTAINER_NAME:-joplin}.${HOST_DOMAIN}`)
+      #- traefik.http.services.joplin.loadbalancer.server.scheme=https # enable if the service wants to connect over https
+      - traefik.http.services.joplin.loadbalancer.server.port=22300
+      - com.centurylinklabs.watchtower.enable=true
+      - autoheal=true
